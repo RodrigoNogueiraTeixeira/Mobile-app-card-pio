@@ -1,20 +1,85 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>index</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Cardápio digital de lanches artesanais. Simples, rápido e direto ao ponto.">
+  <meta name="theme-color" content="#FBFBFD">
+  
+  <title>Cardápio Digital</title>
+
+  <!-- PWA Manifest (Configurado pelo Maycon) -->
+  <link rel="manifest" href="manifest.json">
+
+  <!-- Estilos CSS -->
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/cardapio.css">
+  <!-- Estilo do carrinho da Dani (será carregado quando ela estilizar) -->
+  <link rel="stylesheet" href="css/carrinho.css">
 </head>
 <body>
 
-    <!--Moódulo Vitrine - Rodrigo-->
-    
+  <!-- ==========================================
+       CABEÇALHO DA APLICAÇÃO (Header)
+       ========================================== -->
+  <header class="app-header">
+    <div class="header-content">
+      <span class="badge-status">Aberto agora</span>
+      <h1 class="app-title">Lanches & Co.</h1>
+      <p class="app-subtitle">Cardápio artesanal selecionado</p>
+    </div>
+  </header>
 
-    
-    <!--Moódulo Carinho - Daniel-->
+  <!-- ==========================================
+       CONTEÚDO PRINCIPAL - VITRINE (Bloco Rodrigo)
+       ========================================== -->
+  <main class="container-vitrine">
+    <section class="secao-produtos">
+      <h2 class="secao-titulo">Nossos Lanches</h2>
+      
+      <!-- Container onde o JS (produtos.js) vai injetar os cards dinamicamente -->
+      <div id="lista-produtos" class="grid-produtos" aria-live="polite">
+        <!-- Os cards de produtos serão renderizados aqui pelo produtos.js -->
+      </div>
+    </section>
 
-    
+    <!-- Espaço reservado para a interface do carrinho (Bloco Dani) -->
+    <div id="carrinho-modal" aria-hidden="true"></div>
+  </main>
 
-    <!--Módulo Checkout - Maycon-->
+  <!-- ==========================================
+       NAVEGAÇÃO INFERIOR / BOTÃO DO CARRINHO
+       Fixo na parte inferior da tela (Mobile-First)
+       ========================================== -->
+  <nav class="bottom-nav">
+    <button id="btn-abrir-carrinho" class="btn-carrinho" type="button" aria-label="Abrir carrinho de compras">
+      <div class="btn-carrinho-info">
+        <span class="carrinho-icone">🛒</span>
+        <span class="carrinho-texto">Ver Carrinho</span>
+      </div>
+      <!-- Contador de itens (que a Dani irá manipular via JS) -->
+      <span id="carrinho-contador" class="badge-contador">0</span>
+    </button>
+  </nav>
+
+  <!-- ==========================================
+       SCRIPTS JAVASCRIPT
+       ========================================== -->
+  <!-- 1. Lista e renderização dos lanches (Rodrigo) -->
+  <script src="js/produtos.js" defer></script>
+
+  <!-- 2. Lógica do Carrinho e LocalStorage (Dani) -->
+  <script src="js/carrinho.js" defer></script>
+
+  <!-- 3. Integração com WhatsApp e checkout (Maycon) -->
+  <script src="js/whatsapp.js" defer></script>
+
+  <!-- 4. Inicializador e registro do Service Worker -->
+  <script src="js/app.js" defer></script>
+
+
+
+  <!--CARRINHO - DANIEL -->
+
 </body>
 </html>
