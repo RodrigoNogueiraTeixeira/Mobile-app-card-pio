@@ -9,27 +9,36 @@
 .app-header {
   background-color: var(--bg-surface);
   border-bottom: 1px solid var(--border-color);
-  padding: var(--space-lg) var(--space-md);
+  padding: var(--space-lg) var(--space-md) var(--space-md);
   text-align: center;
 }
 
 .header-content {
   max-width: 600px;
   margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-/* Badge indicando status da loja */
-.badge-status {
-  display: inline-block;
-  font-size: var(--font-xs);
-  font-weight: 600;
-  color: #059669; /* Verde sutil e acessível */
-  background-color: #ECFDF5;
-  padding: 4px 10px;
+/* Caixa circular do ícone com destaque laranja acolhedor */
+.header-icone-box {
+  width: 58px;
+  height: 58px;
+  background-color: #FFF7ED; /* Laranja bem clarinho */
+  color: #EA580C;            /* Laranja gastronômico refinado */
+  border: 1px solid #FFEDD5;
   border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   margin-bottom: var(--space-sm);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+  box-shadow: 0 4px 12px rgba(234, 88, 12, 0.12);
+}
+
+.header-icone-svg {
+  width: 30px;
+  height: 30px;
 }
 
 .app-title {
@@ -43,6 +52,33 @@
 .app-subtitle {
   font-size: var(--font-sm);
   color: var(--text-secondary);
+  margin-bottom: var(--space-sm);
+}
+
+/* Tag de status elegante */
+.header-info-tags {
+  display: inline-flex;
+  align-items: center;
+  background-color: var(--bg-secondary);
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+  font-size: var(--font-xs);
+}
+
+.ponto-verde {
+  width: 7px;
+  height: 7px;
+  background-color: #10B981;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.tag-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #047857;
+  font-weight: 600;
 }
 
 /* --------------------------------------------------------------------------
