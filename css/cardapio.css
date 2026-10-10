@@ -1,0 +1,248 @@
+/* ==========================================================================
+   ESTILOS DA VITRINE E CARDÁPIO (Bloco Rodrigo)
+   Design Minimalista, Elegante (Apple / Notion) e Mobile-First
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. CABEÇALHO (Header)
+   -------------------------------------------------------------------------- */
+.app-header {
+  background-color: var(--bg-surface);
+  border-bottom: 1px solid var(--border-color);
+  padding: var(--space-lg) var(--space-md);
+  text-align: center;
+}
+
+.header-content {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Badge indicando status da loja */
+.badge-status {
+  display: inline-block;
+  font-size: var(--font-xs);
+  font-weight: 600;
+  color: #059669; /* Verde sutil e acessível */
+  background-color: #ECFDF5;
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  margin-bottom: var(--space-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.app-title {
+  font-size: var(--font-lg);
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.5px;
+  margin-bottom: 2px;
+}
+
+.app-subtitle {
+  font-size: var(--font-sm);
+  color: var(--text-secondary);
+}
+
+/* --------------------------------------------------------------------------
+   2. CONTEÚDO PRINCIPAL E VITRINE
+   -------------------------------------------------------------------------- */
+.container-vitrine {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: var(--space-lg) var(--space-md);
+  /* Espaço inferior para não cobrir o conteúdo com a barra fixa do carrinho */
+  padding-bottom: 100px; 
+}
+
+.secao-titulo {
+  font-size: var(--font-md);
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: var(--space-md);
+  letter-spacing: -0.3px;
+}
+
+/* Grid de produtos (1 coluna no mobile) */
+.grid-produtos {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+/* --------------------------------------------------------------------------
+   3. DESIGN DOS CARDS DE LANCHES
+   -------------------------------------------------------------------------- */
+.card-produto {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+/* Efeito sutil ao pressionar no mobile */
+.card-produto:active {
+  transform: scale(0.99);
+}
+
+/* Imagem do lanche com proporção fixa para evitar Layout Shift (CLS = 0) */
+.card-imagem-container {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background-color: var(--bg-secondary);
+  overflow: hidden;
+}
+
+.card-imagem {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+/* Informações do lanche */
+.card-conteudo {
+  padding: var(--space-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  flex-grow: 1;
+}
+
+.card-titulo {
+  font-size: var(--font-base);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.card-descricao {
+  font-size: var(--font-sm);
+  color: var(--text-secondary);
+  line-height: 1.4;
+  margin-bottom: var(--space-sm);
+}
+
+/* Rodapé do card: Preço e Botão de Adicionar */
+.card-rodape {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+  padding-top: var(--space-xs);
+}
+
+.card-preco {
+  font-size: var(--font-base);
+  font-weight: 700;
+  color: var(--accent-gold);
+}
+
+/* Botão minimalista para adicionar (área de toque acessível min 44px) */
+.btn-adicionar {
+  background-color: var(--accent);
+  color: #FFFFFF;
+  font-weight: 500;
+  font-size: var(--font-sm);
+  padding: 10px 16px;
+  min-height: 44px;
+  border-radius: var(--radius-md);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color var(--transition-fast);
+}
+
+.btn-adicionar:hover {
+  background-color: var(--accent-hover);
+}
+
+.btn-adicionar:active {
+  transform: scale(0.97);
+}
+
+/* --------------------------------------------------------------------------
+   4. NAVEGAÇÃO INFERIOR / BOTÃO DO CARRINHO (Mobile-First)
+   -------------------------------------------------------------------------- */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-top: 1px solid var(--border-color);
+  padding: var(--space-sm) var(--space-md);
+  /* Suporte para telas com barra inferior do iOS (Safe Area) */
+  padding-bottom: max(var(--space-sm), env(safe-area-inset-bottom));
+  z-index: 100;
+  display: flex;
+  justify-content: center;
+}
+
+/* Botão flutuante em formato de barra/pílula elegante */
+.btn-carrinho {
+  width: 100%;
+  max-width: 500px;
+  background-color: var(--accent);
+  color: #FFFFFF;
+  min-height: 48px; /* Ótima área de toque */
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--space-md);
+  box-shadow: var(--shadow-md);
+  transition: background-color var(--transition-fast), transform var(--transition-fast);
+}
+
+.btn-carrinho:active {
+  transform: scale(0.98);
+}
+
+.btn-carrinho-info {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.carrinho-icone {
+  font-size: 1.1rem;
+}
+
+.carrinho-texto {
+  font-size: var(--font-sm);
+  font-weight: 600;
+  letter-spacing: 0.2px;
+}
+
+/* Contador de itens */
+.badge-contador {
+  background-color: #FFFFFF;
+  color: var(--accent);
+  font-size: var(--font-xs);
+  font-weight: 700;
+  min-width: 22px;
+  height: 22px;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 6px;
+}
+
+/* --------------------------------------------------------------------------
+   5. RESPONSIVIDADE (Telas Maiores / Tablets / Desktops)
+   -------------------------------------------------------------------------- */
+@media (min-width: 600px) {
+  .grid-produtos {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-md);
+  }
+}
