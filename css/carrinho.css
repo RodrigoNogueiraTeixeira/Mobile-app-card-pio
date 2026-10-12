@@ -1,0 +1,97 @@
+/* css/carrinho.css */
+
+/* Estrutura principal do Modal (Mobile-First) */
+#carrinho-modal {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 100%; /* Ocupa a tela toda no celular */
+  height: 100vh;
+  background-color: #ffffff;
+  box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+  z-index: 1000; /* Garante que fique por cima de tudo */
+  display: flex;
+  flex-direction: column;
+  
+  /* O truque da animação: Escondido fora da tela à direita */
+  transform: translateX(100%);
+  transition: transform 0.3s ease-in-out;
+}
+
+/* Classe que o nosso JavaScript vai adicionar para mostrar o carrinho */
+#carrinho-modal.aberto {
+  transform: translateX(0);
+}
+
+/* Cabeçalho do carrinho */
+.carrinho-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  border-bottom: 1px solid #eeeeee;
+}
+
+.carrinho-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #333333;
+}
+
+#btn-fechar-carrinho {
+  background: none;
+  border: none;
+  font-size: 1rem;
+  color: #ff5722; /* Laranja combinando com o ícone do topo do app */
+  font-weight: bold;
+  cursor: pointer;
+  padding: 10px;
+}
+
+/* Área da lista de produtos */
+#lista-carrinho {
+  flex: 1; /* Faz a lista crescer e empurrar o rodapé lá para baixo */
+  list-style: none;
+  margin: 0;
+  padding: 20px;
+  overflow-y: auto; /* Cria barra de rolagem se o cliente pedir muitos lanches */
+}
+
+#lista-carrinho li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 15px;
+  margin-bottom: 15px;
+  border-bottom: 1px dashed #cccccc;
+  font-size: 1rem;
+}
+
+.btn-remover {
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+/* Rodapé fixo com o valor total */
+.carrinho-rodape {
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-top: 1px solid #eeeeee;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+/* Responsividade (Requisito do professor: Mobile-first) */
+@media (min-width: 768px) {
+  #carrinho-modal {
+    width: 400px; /* Em telas maiores, ele não ocupa a tela toda, vira uma aba lateral */
+  }
+}
