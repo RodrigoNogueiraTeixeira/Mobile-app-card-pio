@@ -107,10 +107,12 @@ function renderizarProdutos() {
           <div class="card-rodape">
             <span class="card-preco">${formatarPreco(produto.preco)}</span>
             <!-- Botão com data-id pronto para a Dani (carrinho.js) interceptar o clique -->
+            <!-- Botão com chamada direta da função e feedback visual -->
             <button 
               type="button" 
               class="btn-adicionar" 
               data-id="${produto.id}"
+              onclick="adicionarItemAoCarrinho(${produto.id}, this)"
               aria-label="Adicionar ${produto.nome} ao carrinho"
             >
               Adicionar
@@ -123,28 +125,40 @@ function renderizarProdutos() {
 
   // Injeta os cards gerados dentro da div
   container.innerHTML = cardsHTML;
+}
 
-  // Conecta os botões "Adicionar" com a função do Dani (carrinho.js)
-  container.addEventListener('click', (event) => {
-    const botao = event.target.closest('.btn-adicionar');
-    if (!botao) return;
+/**
+ * Conecta o clique de adicionar do lanche com a lógica do Dani (carrinho.js)
+ * @param {number} id - ID do lanche
+ * @param {HTMLElement} botao - Elemento do botão que foi clicado
+ */
+function adicionarItemAoCarrinho(id, botao) {
+  const produto = produtos.find((p) => p.id === id);
+  if (!produto) return;
 
-    const id = Number(botao.dataset.id);
-    const produto = produtos.find((p) => p.id === id);
+  // Verifica e executa a função desenvolvida pelo Dani
+  const funcaoCarrinho = window.adicionarAoCarrinho || (typeof adicionarAoCarrinho === 'function' ? adicionarAoCarrinho : null);
 
-    if (produto && typeof adicionarAoCarrinho === 'function') {
-      // Chama a função criada pelo Dani (passando nome e preco)
-      adicionarAoCarrinho(produto.nome, produto.preco);
+  if (funcaoCarrinho) {
+    funcaoCarrinho(produto.nome, produto.preco);
 
-      // Feedback visual rápido no botão (Mobile UX)
+    // Feedback visual imediato no botão (fica verde por 800ms)
+    if (botao) {
       const textoOriginal = botao.textContent;
       botao.textContent = 'Adicionado! ✓';
+      botao.style.backgroundColor = '#10B981';
       setTimeout(() => {
         botao.textContent = textoOriginal;
-      }, 700);
+        botao.style.backgroundColor = '';
+      }, 800);
     }
-  });
+  } else {
+    console.error('A função adicionarAoCarrinho do Dani ainda não está disponível.');
+  }
 }
+
+// Expõe no escopo global para garantir acesso pelo onclick
+window.adicionarItemAoCarrinho = adicionarItemAoCarrinho;
 
 // Executa a renderização assim que o DOM estiver carregado
 document.addEventListener('DOMContentLoaded', () => {
