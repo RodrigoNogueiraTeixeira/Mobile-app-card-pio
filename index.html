@@ -8,26 +8,19 @@
   
   <title>Cardápio Digital</title>
 
-  <!-- Favicon (SVG nítido e leve com a identidade do app) -->
   <link rel="icon" type="image/svg+xml" href="img/icons/favicon.svg">
-
-  <!-- PWA Manifest (Configurado pelo Maycon) -->
   <link rel="manifest" href="manifest.json">
 
-  <!-- Estilos CSS -->
+  <!-- Estilos -->
   <link rel="stylesheet" href="css/global.css">
   <link rel="stylesheet" href="css/cardapio.css">
-  <!-- Estilo do carrinho da Dani (será carregado quando ela estilizar) -->
   <link rel="stylesheet" href="css/carrinho.css">
 </head>
 <body>
 
-  <!-- ==========================================
-       CABEÇALHO DA APLICAÇÃO (Header)
-       ========================================== -->
+  <!-- BLOCO: CABEÇALHO -->
   <header class="app-header">
     <div class="header-content">
-      <!-- Ícone com destaque laranja aconchegante -->
       <div class="header-icone-box">
         <svg class="header-icone-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <path d="M4 11h16a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-1a1 1 0 0 1 1-1Z"/>
@@ -42,7 +35,6 @@
       <h1 class="app-title">Lanches</h1>
       <p class="app-subtitle">Hambúrgueres artesanais & porções</p>
 
-      <!-- Informações de status -->
       <div class="header-info-tags">
         <span class="tag-status">
           <span class="ponto-verde"></span> Aberto agora
@@ -51,72 +43,45 @@
     </div>
   </header>
 
-  <!-- ==========================================
-       CONTEÚDO PRINCIPAL - VITRINE (Bloco Rodrigo)
-       ========================================== -->
   <main class="container-vitrine">
+    <!-- BLOCO: VITRINE DE PRODUTOS -->
     <section class="secao-produtos">
       <h2 class="secao-titulo">Nossos Lanches</h2>
-      
-      <!-- Container onde o JS (produtos.js) vai injetar os cards dinamicamente -->
-      <div id="lista-produtos" class="grid-produtos" aria-live="polite">
-        <!-- Os cards de produtos serão renderizados aqui pelo produtos.js -->
-      </div>
+      <div id="lista-produtos" class="grid-produtos" aria-live="polite"></div>
     </section>
 
-    <!-- Espaço reservado para a interface do carrinho (Bloco Dani) -->
+    <!-- BLOCO: CARRINHO (MODAL) -->
     <div id="carrinho-modal" aria-hidden="true">
-
       <div class="carrinho-header">
         <h2>Seu Pedido</h2>
         <button id="btn-fechar-carrinho">Fechar</button>
       </div>
 
-    <!-- Itens salvos no LocalStorage -->
-     <ul id="lista-carrinho">
-     </ul>  
+      <ul id="lista-carrinho"></ul>  
 
-     <div>
-      <span>Total: </span>
-      <span id="valor-total">R$ 25,00</span>
-     </div>
-
+      <div>
+        <span>Total: </span>
+        <span id="valor-total">R$ 25,00</span>
+      </div>
     </div>
   </main>
 
-  <!-- ==========================================
-       NAVEGAÇÃO INFERIOR / BOTÃO DO CARRINHO
-       Fixo na parte inferior da tela (Mobile-First)
-       ========================================== -->
+  <!-- BLOCO: NAVEGAÇÃO INFERIOR -->
   <nav class="bottom-nav">
     <button id="btn-abrir-carrinho" class="btn-carrinho" type="button" aria-label="Abrir carrinho de compras">
       <div class="btn-carrinho-info">
         <span class="carrinho-icone">🛒</span>
         <span class="carrinho-texto">Ver Carrinho</span>
       </div>
-      <!-- Contador de itens (que a Dani irá manipular via JS) -->
       <span id="carrinho-contador" class="badge-contador">0</span>
     </button>
   </nav>
 
-  <!-- ==========================================
-       SCRIPTS JAVASCRIPT
-       ========================================== -->
-  <!-- 1. Lista e renderização dos lanches (Rodrigo) -->
+  <!-- BLOCO: SCRIPTS -->
   <script src="js/produtos.js" defer></script>
-
-  <!-- 2. Lógica do Carrinho e LocalStorage (Dani) -->
   <script src="js/carrinho.js" defer></script>
-
-  <!-- 3. Integração com WhatsApp e checkout (Maycon) -->
   <script src="js/whatsapp.js" defer></script>
-
-  <!-- 4. Inicializador e registro do Service Worker -->
   <script src="js/app.js" defer></script>
-
-
-
-  <!--CARRINHO - DANIEL -->
 
 </body>
 </html>
