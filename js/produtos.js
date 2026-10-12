@@ -123,6 +123,27 @@ function renderizarProdutos() {
 
   // Injeta os cards gerados dentro da div
   container.innerHTML = cardsHTML;
+
+  // Conecta os botões "Adicionar" com a função do Dani (carrinho.js)
+  container.addEventListener('click', (event) => {
+    const botao = event.target.closest('.btn-adicionar');
+    if (!botao) return;
+
+    const id = Number(botao.dataset.id);
+    const produto = produtos.find((p) => p.id === id);
+
+    if (produto && typeof adicionarAoCarrinho === 'function') {
+      // Chama a função criada pelo Dani (passando nome e preco)
+      adicionarAoCarrinho(produto.nome, produto.preco);
+
+      // Feedback visual rápido no botão (Mobile UX)
+      const textoOriginal = botao.textContent;
+      botao.textContent = 'Adicionado! ✓';
+      setTimeout(() => {
+        botao.textContent = textoOriginal;
+      }, 700);
+    }
+  });
 }
 
 // Executa a renderização assim que o DOM estiver carregado
