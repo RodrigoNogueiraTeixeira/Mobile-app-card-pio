@@ -1,0 +1,63 @@
+{
+  "id": "./index.html",
+  "name": "Cardápio Digital - Lanches Artesanais",
+  "short_name": "Cardápio",
+  "description": "Cardápio digital de lanches artesanais. Peça de forma simples, rápida e direto pelo WhatsApp.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#FBFBFD",
+  "theme_color": "#FBFBFD",
+  "icons": [
+    {
+      "src": "img/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "img/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "img/icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "img/icons/favicon.svg",
+      "sizes": "32x32",
+      "type": "image/svg+xml"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Ver Lanches",
+      "short_name": "Lanches",
+      "description": "Acessar a lista completa de lanches artesanais",
+      "url": "./index.html#lista-produtos",
+      "icons": [
+        {
+          "src": "img/icons/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Meu Carrinho",
+      "short_name": "Carrinho",
+      "description": "Verificar itens no carrinho e finalizar pedido",
+      "url": "./index.html#carrinho",
+      "icons": [
+        {
+          "src": "img/icons/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    }
+  ]
+}
