@@ -83,17 +83,19 @@ function renderizarProdutos() {
   }
 
   // Gera o HTML de todos os cards
-  const cardsHTML = produtos.map((produto) => {
+  const cardsHTML = produtos.map((produto, index) => {
+    // As 2 primeiras imagens (acima da dobra) carregam com alta prioridade (LCP 95+), as outras com lazy loading
+    const isAboveFold = index < 2;
+    const loadingAttr = isAboveFold ? 'fetchpriority="high"' : 'loading="lazy" decoding="async"';
+
     return `
       <article class="card-produto" data-id="${produto.id}">
-        <!-- Imagem otimizada: formato webp, tag alt acessível e lazy loading para Performance 95+ -->
         <div class="card-imagem-container">
           <img 
             src="${produto.foto}" 
             alt="${produto.alt}" 
             class="card-imagem"
-            loading="lazy" 
-            decoding="async"
+            ${loadingAttr}
             width="400"
             height="225"
             onerror="this.style.display='none'"
