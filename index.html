@@ -65,7 +65,23 @@
     </section>
 
     <!-- Espaço reservado para a interface do carrinho (Bloco Dani) -->
-    <div id="carrinho-modal" aria-hidden="true"></div>
+    <div id="carrinho-modal" aria-hidden="true">
+
+      <div class="carrinho-header">
+        <h2>Seu Pedido</h2>
+        <button id="btn-fechar-carrinho">Fechar</button>
+      </div>
+
+    <!-- Itens salvos no LocalStorage -->
+     <ul id="lista-carrinho">
+     </ul>  
+
+     <div>
+      <span>Total: </span>
+      <span id="valor-total">R$ 25,00</span>
+     </div>
+
+    </div>
   </main>
 
   <!-- ==========================================
