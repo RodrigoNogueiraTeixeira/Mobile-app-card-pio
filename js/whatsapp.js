@@ -1,24 +1,38 @@
 // Configuração do WhatsApp da lanchonete (DDD + Número)
 const NUMERO_WHATSAPP = '5511999999999';
 
-// Lê o carrinho salvo no LocalStorage
+// Lê o carrinho salvo no LocalStorage (suporta tanto 'lista-carrinho' quanto 'carrinho')
 function lerItensCarrinho() {
-  const dados = localStorage.getItem('carrinho');
+  const dados = localStorage.getItem('lista-carrinho') || localStorage.getItem('carrinho');
   if (!dados) return [];
 
   try {
     const itens = JSON.parse(dados);
     if (!Array.isArray(itens)) return [];
 
-    return itens.map((item) => {
-      const prod = (typeof produtos !== 'undefined') ? produtos.find((p) => p.id == item.id) : null;
-      return {
-        id: item.id,
-        nome: item.nome || (prod ? prod.nome : 'Lanche'),
-        preco: Number(item.preco !== undefined ? item.preco : (prod ? prod.preco : 0)),
-        quantidade: Number(item.quantidade || item.qtd || 1)
-      };
+    // Agrupa itens com o mesmo nome e soma as quantidades
+    const mapaItens = new Map();
+
+    itens.forEach((item) => {
+      const prod = (typeof produtos !== 'undefined') ? produtos.find((p) => p.id == item.id || p.nome === item.nome) : null;
+      const nome = item.nome || (prod ? prod.nome : 'Lanche');
+      const preco = Number(item.preco !== undefined ? item.preco : (prod ? prod.preco : 0));
+      const quantidade = Number(item.quantidade || item.qtd || 1);
+
+      if (mapaItens.has(nome)) {
+        const existente = mapaItens.get(nome);
+        existente.quantidade += quantidade;
+      } else {
+        mapaItens.set(nome, {
+          id: item.id || (prod ? prod.id : undefined),
+          nome,
+          preco,
+          quantidade
+        });
+      }
     });
+
+    return Array.from(mapaItens.values());
   } catch (erro) {
     console.error('Erro ao ler carrinho:', erro);
     return [];
@@ -145,6 +159,69 @@ async function enviarParaWhatsApp() {
   }
 
   window.open(linkWhatsApp, '_blank');
+}
+
+// Garante a inserção dos botões de checkout dentro do modal do carrinho
+function injetarBotoesCheckout() {
+  const modal = document.getElementById('carrinho-modal');
+  if (!modal || document.getElementById('acoes-checkout')) return;
+
+  const container = document.createElement('div');
+  container.id = 'acoes-checkout';
+  Object.assign(container.style, {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '10px',
+    padding: '16px 20px',
+    marginTop: 'auto',
+    borderTop: '1px solid #eeeeee',
+    backgroundColor: '#ffffff'
+  });
+
+  const btnWhatsApp = document.createElement('button');
+  btnWhatsApp.id = 'btn-whatsapp';
+  btnWhatsApp.className = 'btn-whatsapp';
+  btnWhatsApp.innerText = '📱 Pedir via WhatsApp';
+  Object.assign(btnWhatsApp.style, {
+    backgroundColor: '#25D366',
+    color: '#FFFFFF',
+    padding: '14px 20px',
+    borderRadius: '12px',
+    fontWeight: '700',
+    fontSize: '15px',
+    border: 'none',
+    cursor: 'pointer',
+    textAlign: 'center',
+    boxShadow: '0 4px 12px rgba(37, 211, 102, 0.25)',
+    transition: 'transform 0.2s ease, opacity 0.2s ease'
+  });
+
+  const btnCopiar = document.createElement('button');
+  btnCopiar.id = 'btn-copiar';
+  btnCopiar.className = 'btn-copiar';
+  btnCopiar.innerText = '📋 Copiar Pedido';
+  Object.assign(btnCopiar.style, {
+    backgroundColor: '#F5F5F7',
+    color: '#1D1D1F',
+    padding: '12px 20px',
+    borderRadius: '12px',
+    fontWeight: '600',
+    fontSize: '14px',
+    border: '1px solid #E5E5EA',
+    cursor: 'pointer',
+    textAlign: 'center',
+    transition: 'background-color 0.2s ease'
+  });
+
+  container.appendChild(btnWhatsApp);
+  container.appendChild(btnCopiar);
+  modal.appendChild(container);
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', injetarBotoesCheckout);
+} else {
+  injetarBotoesCheckout();
 }
 
 // Intercepta cliques nos botões de checkout
