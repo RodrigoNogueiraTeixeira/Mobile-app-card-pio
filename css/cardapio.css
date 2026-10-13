@@ -33,7 +33,7 @@
   align-items: center;
   justify-content: center;
   margin-bottom: var(--space-sm);
-  box-shadow: 0 4px 12px rgba(234, 88, 12, 0.12);
+  box-shadow: 0 4px 12px rgba(234, 88, 12, 0.12); /* [01] Cria uma sombra suave alaranjada dando efeito de relevo */
 }
 
 .header-icone-svg {
@@ -43,9 +43,9 @@
 
 .app-title {
   font-size: var(--font-lg);
-  font-weight: 700;
+  font-weight: 700;       /* [02] Deixa o texto em negrito bem forte */
   color: var(--text-primary);
-  letter-spacing: -0.5px;
+  letter-spacing: -0.5px; /* [02] Diminui o espaço entre as letras para um visual mais moderno e compacto */
   margin-bottom: 2px;
 }
 
@@ -78,7 +78,7 @@
   align-items: center;
   gap: 6px;
   color: #047857;
-  font-weight: 600;
+  font-weight: 600; /* [03] Deixa o texto em semi-negrito */
 }
 
 /* --------------------------------------------------------------------------
@@ -97,7 +97,7 @@
   font-weight: 600;
   color: var(--text-primary);
   margin-bottom: var(--space-md);
-  letter-spacing: -0.3px;
+  letter-spacing: -0.3px; /* [04] Aproxima levemente as letras do título da seção */
 }
 
 /* Grid de produtos (1 coluna no mobile) */
@@ -114,30 +114,30 @@
   background-color: var(--bg-surface);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
-  overflow: hidden;
+  overflow: hidden; /* [05] Corta qualquer conteúdo interno que passe das bordas arredondadas */
   box-shadow: var(--shadow-sm);
   display: flex;
   flex-direction: column;
-  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast); /* [06] Suaviza as animações de clique e sombra */
 }
 
 /* Efeito sutil ao pressionar no mobile */
 .card-produto:active {
-  transform: scale(0.99);
+  transform: scale(0.99); /* [07] Encolhe o card em 1% ao tocar, simulando clique físico */
 }
 
 /* Imagem do lanche com proporção fixa para evitar Layout Shift (CLS = 0) */
 .card-imagem-container {
   width: 100%;
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 16 / 9; /* [08] Mantém proporção retangular fixa da imagem (evita que a tela pule ao carregar) */
   background-color: var(--bg-secondary);
-  overflow: hidden;
+  overflow: hidden; /* [09] Impede que a imagem ultrapasse o container */
 }
 
 .card-imagem {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: cover; /* [10] Preenche toda a área cortando as sobras sem achatar ou distorcer a foto */
   transition: transform 0.3s ease;
 }
 
@@ -147,7 +147,7 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-xs);
-  flex-grow: 1;
+  flex-grow: 1; /* [11] Faz a área de texto crescer para empurrar o preço e botão sempre para a base */
 }
 
 .card-titulo {
@@ -159,7 +159,7 @@
 .card-descricao {
   font-size: var(--font-sm);
   color: var(--text-secondary);
-  line-height: 1.4;
+  line-height: 1.4; /* [12] Define o espaçamento entre linhas do texto para melhorar a leitura */
   margin-bottom: var(--space-sm);
 }
 
@@ -204,21 +204,22 @@
 /* --------------------------------------------------------------------------
    4. NAVEGAÇÃO INFERIOR / BOTÃO DO CARRINHO (Mobile-First)
    -------------------------------------------------------------------------- */
+/* [14] Bloco completo que fixa e estiliza a barra do carrinho no rodapé da tela */
 .bottom-nav {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background-color: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-top: 1px solid var(--border-color);
-  padding: var(--space-sm) var(--space-md);
+  position: fixed; /* [13] Fixa a barra sempre presa na tela, mesmo quando você rola a página */
+  bottom: 0;       /* Cola na borda inferior da tela */
+  left: 0;         /* Alinha com o canto esquerdo da tela */
+  right: 0;        /* Estica até o canto direito da tela */
+  background-color: rgba(255, 255, 255, 0.95); /* Fundo branco quase opaco (95%) */
+  backdrop-filter: blur(12px);         /* Efeito de vidro embaçado (estilo iOS/Apple) sobre o que passa atrás */
+  -webkit-backdrop-filter: blur(12px); /* Garante suporte ao efeito de vidro em navegadores Safari/iPhone */
+  border-top: 1px solid var(--border-color); /* Linha divisória sutil na parte superior */
+  padding: var(--space-sm) var(--space-md);  /* Espaçamento interno */
   /* Suporte para telas com barra inferior do iOS (Safe Area) */
-  padding-bottom: max(var(--space-sm), env(safe-area-inset-bottom));
-  z-index: 100;
-  display: flex;
-  justify-content: center;
+  padding-bottom: max(var(--space-sm), env(safe-area-inset-bottom)); /* Espaço extra para não bater na barra de gestos do iPhone */
+  z-index: 100; /* Faz a barra ficar acima de todos os cards ao rolar */
+  display: flex; /* Ativa flexbox para alinhar elementos */
+  justify-content: center; /* Centraliza o botão horizontalmente */
 }
 
 /* Botão flutuante em formato de barra/pílula elegante */
@@ -278,7 +279,7 @@
 @media (min-width: 600px) {
   .grid-produtos {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, 1fr); /* [15] Em telas a partir de 600px, divide os cards em 2 colunas de larguras iguais */
     gap: var(--space-md);
   }
 }
