@@ -14,7 +14,7 @@
 
   --accent: #111111;          /* Cor de ação primária (preto Notion) */
   --accent-hover: #2C2C2E;    /* Estado hover dos botões principais */
-  --accent-gold: #D97706;     /* Destaque para preços e promoções */
+  --accent-gold: #B45309;     /* Destaque para preços e promoções com alto contraste (WCAG AA) */
 
   --border-color: #E5E5EA;    /* Linhas e divisórias discretas */
 

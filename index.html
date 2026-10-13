@@ -11,6 +11,9 @@
   <link rel="icon" type="image/svg+xml" href="img/icons/favicon.svg">
   <link rel="manifest" href="manifest.json">
 
+  <!-- Preload da imagem LCP para pontuação máxima de Performance no Lighthouse -->
+  <link rel="preload" as="image" href="img/lanches/classic-smash.webp" type="image/webp" fetchpriority="high">
+
   <!-- Estilos -->
   <link rel="stylesheet" href="css/global.css">
   <link rel="stylesheet" href="css/cardapio.css">
@@ -51,7 +54,7 @@
     </section>
 
     <!-- BLOCO: CARRINHO (MODAL) -->
-    <div id="carrinho-modal" aria-hidden="true">
+    <div id="carrinho-modal">
       <div class="carrinho-header">
         <h2>Seu Pedido</h2>
         <button id="btn-fechar-carrinho">Fechar</button>
@@ -59,9 +62,9 @@
 
       <ul id="lista-carrinho"></ul>  
 
-      <div>
-        <span>Total: </span>
-        <span id="valor-total">R$ 25,00</span>
+      <div class="carrinho-rodape">
+        <span>Total:</span>
+        <span id="valor-total">R$ 0,00</span>
       </div>
     </div>
   </main>
