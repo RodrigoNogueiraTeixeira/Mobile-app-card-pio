@@ -1,5 +1,5 @@
 // Nome do cache e lista de arquivos para funcionamento offline
-const CACHE_NAME = 'cardapio-pwa-v1';
+const CACHE_NAME = 'cardapio-pwa-v2';
 const ARQUIVOS_CACHE = [
   './',
   './index.html',
@@ -45,11 +45,19 @@ self.addEventListener('activate', (evento) => {
   );
 });
 
-// Intercepta requisições: entrega do cache (offline) ou busca na rede
+// Intercepta requisições: busca na rede primeiro (atualiza cache); se estiver offline, entrega do cache
 self.addEventListener('fetch', (evento) => {
   if (!evento.request.url.startsWith('http')) return;
 
   evento.respondWith(
-    caches.match(evento.request).then((cache) => cache || fetch(evento.request))
+    fetch(evento.request)
+      .then((respostaRede) => {
+        if (respostaRede && respostaRede.status === 200) {
+          const respostaClone = respostaRede.clone();
+          caches.open(CACHE_NAME).then((cache) => cache.put(evento.request, respostaClone));
+        }
+        return respostaRede;
+      })
+      .catch(() => caches.match(evento.request))
   );
 });
