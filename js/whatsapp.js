@@ -1,4 +1,4 @@
-// Configuração do WhatsApp da lanchonete (DDD + Número) - Altere no dia da apresentação
+// Configuração do WhatsApp da lanchonete (DDD + Número)
 const NUMERO_WHATSAPP = '5511999999999';
 
 // Lê o carrinho salvo no LocalStorage (suporta tanto 'lista-carrinho' quanto 'carrinho')
