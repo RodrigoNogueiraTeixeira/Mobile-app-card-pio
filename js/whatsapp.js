@@ -158,7 +158,92 @@ async function copiarPedido() {
   document.body.removeChild(campo);
 }
 
-// Envia o pedido diretamente para a conversa com o número configurado do WhatsApp
+// Exibe mensagem de confirmação no aplicativo informando que o pedido está sendo preparado
+function exibirConfirmacaoPreparo(entrega) {
+  const anterior = document.getElementById('modal-confirmacao-pedido');
+  if (anterior) anterior.remove();
+
+  const tempoEstimado = entrega && entrega.tipo === 'local' ? '15 a 25 minutos' : '30 a 45 minutos';
+  const modoTexto = entrega && entrega.tipo === 'local' ? '🏪 Retirada no Local' : '🛵 Entrega (Delivery)';
+
+  const modalConfirmacao = document.createElement('div');
+  modalConfirmacao.id = 'modal-confirmacao-pedido';
+  Object.assign(modalConfirmacao.style, {
+    position: 'fixed',
+    top: '0',
+    left: '0',
+    width: '100%',
+    height: '100%',
+    backgroundColor: 'rgba(0, 0, 0, 0.65)',
+    backdropFilter: 'blur(4px)',
+    zIndex: '2000',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: '20px',
+    boxSizing: 'border-box'
+  });
+
+  modalConfirmacao.innerHTML = `
+    <div style="background: #ffffff; border-radius: 20px; max-width: 360px; width: 100%; padding: 24px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.25); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+      <div style="font-size: 48px; margin-bottom: 8px;">👨‍🍳</div>
+      <h3 style="margin: 0 0 8px; color: #111827; font-size: 20px; font-weight: 700;">Pedido Recebido!</h3>
+      <p style="margin: 0 0 16px; color: #4B5563; font-size: 14px; line-height: 1.5;">
+        O estabelecimento confirmou seu pedido.<br>
+        <strong style="color: #059669;">Seu lanche já está sendo preparado!</strong>
+      </p>
+      
+      <div style="background: #F3F4F6; border-radius: 12px; padding: 12px 14px; margin-bottom: 20px; font-size: 13px; color: #374151; text-align: left;">
+        <div style="margin-bottom: 6px;">⏱️ <strong>Previsão:</strong> ${tempoEstimado}</div>
+        <div>📍 <strong>Modo:</strong> ${modoTexto}</div>
+      </div>
+
+      <button id="btn-fechar-confirmacao" style="width: 100%; background-color: #25D366; color: #FFFFFF; border: none; padding: 12px 16px; border-radius: 12px; font-weight: 700; font-size: 15px; cursor: pointer; transition: opacity 0.2s;">
+        Entendido! ✓
+      </button>
+    </div>
+  `;
+
+  document.body.appendChild(modalConfirmacao);
+
+  const btnFechar = modalConfirmacao.querySelector('#btn-fechar-confirmacao');
+  if (btnFechar) {
+    btnFechar.addEventListener('click', () => {
+      modalConfirmacao.remove();
+    });
+  }
+
+  // Também permite fechar clicando fora da caixinha
+  modalConfirmacao.addEventListener('click', (e) => {
+    if (e.target === modalConfirmacao) {
+      modalConfirmacao.remove();
+    }
+  });
+}
+
+// Limpa o carrinho após finalizar o pedido
+function limparCarrinhoAposEnvio() {
+  localStorage.removeItem('lista-carrinho');
+  localStorage.removeItem('carrinho');
+
+  const listaCarrinhoHTML = document.getElementById('lista-carrinho');
+  const valorTotalHTML = document.getElementById('valor-total');
+  const contadorHTML = document.getElementById('carrinho-contador');
+
+  if (listaCarrinhoHTML) listaCarrinhoHTML.innerHTML = '';
+  if (valorTotalHTML) valorTotalHTML.textContent = 'R$ 0,00';
+  if (contadorHTML) contadorHTML.textContent = '0';
+
+  if (typeof carrinho !== 'undefined' && Array.isArray(carrinho)) {
+    carrinho.length = 0;
+  }
+}
+
+// Estado para saber se o cliente foi enviado para o WhatsApp
+let pedidoAguardandoRetorno = false;
+let entregaPendente = null;
+
+// Envia o pedido para o WhatsApp e aguarda o envio e retorno do cliente
 function enviarParaWhatsApp() {
   const itens = lerItensCarrinho();
   if (itens.length === 0) {
@@ -175,7 +260,7 @@ function enviarParaWhatsApp() {
   }
 
   const texto = gerarTextoPedido(itens, entrega);
-  dispararNotificacao('Pedido Gerado!');
+  dispararNotificacao('Redirecionando para o WhatsApp...');
 
   // Remove caracteres como espaços, parênteses e traços
   let numeroLimpo = NUMERO_WHATSAPP.replace(/\D/g, '');
@@ -185,10 +270,53 @@ function enviarParaWhatsApp() {
     numeroLimpo = '55' + numeroLimpo;
   }
 
-  // Abre diretamente a conversa com o número do estabelecimento
+  // Marca que o pedido está a caminho do WhatsApp
+  pedidoAguardandoRetorno = true;
+  entregaPendente = entrega;
+  try {
+    localStorage.setItem('pedido_aguardando_retorno', JSON.stringify({ entrega }));
+  } catch (e) { }
+
+  // Fecha o modal do carrinho
+  const modalCarrinho = document.getElementById('carrinho-modal');
+  if (modalCarrinho) modalCarrinho.classList.remove('aberto');
+
+  // Abre a conversa com o número do estabelecimento
   const linkWhatsApp = `https://wa.me/${numeroLimpo}?text=${encodeURIComponent(texto)}`;
   window.open(linkWhatsApp, '_blank');
 }
+
+// Verifica se o cliente acabou de voltar do WhatsApp para confirmar o preparo
+function verificarRetornoWhatsApp() {
+  const salvo = localStorage.getItem('pedido_aguardando_retorno');
+  if (!pedidoAguardandoRetorno && !salvo) return;
+
+  let entrega = entregaPendente;
+  if (!entrega && salvo) {
+    try {
+      entrega = JSON.parse(salvo).entrega;
+    } catch (e) { }
+  }
+
+  // Limpa o estado pendente
+  pedidoAguardandoRetorno = false;
+  entregaPendente = null;
+  localStorage.removeItem('pedido_aguardando_retorno');
+
+  // Exibe a confirmação de que o pedido está sendo preparado
+  setTimeout(() => {
+    exibirConfirmacaoPreparo(entrega);
+    limparCarrinhoAposEnvio();
+  }, 400);
+}
+
+// Detecta quando o cliente volta para a aba do cardápio (após enviar a mensagem no WhatsApp)
+window.addEventListener('focus', verificarRetornoWhatsApp);
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible') {
+    verificarRetornoWhatsApp();
+  }
+});
 
 // Garante a inserção das opções de entrega e botões de checkout dentro do modal do carrinho
 function injetarBotoesCheckout() {

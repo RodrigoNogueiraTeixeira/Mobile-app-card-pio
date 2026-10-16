@@ -1,5 +1,5 @@
 // Nome do cache e lista de arquivos para funcionamento offline
-const CACHE_NAME = 'cardapio-pwa-v2';
+const CACHE_NAME = 'cardapio-pwa-v4';
 const ARQUIVOS_CACHE = [
   './',
   './index.html',
